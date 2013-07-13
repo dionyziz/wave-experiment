@@ -74,7 +74,7 @@ Euler's method essentially [linearly approximates](http://en.wikipedia.org/wiki/
 
 We then find the acceleration as the sum of these:
 
-    ∂²u / ∂t² = ∂u / ∂x + ∂u / ∂z
+    ∂²u / ∂t² = ∂²u / ∂x² + ∂²u / ∂z²
 
 Finally, the speed and position are evaluated using linear approximations:
 
