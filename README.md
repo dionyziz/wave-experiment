@@ -59,7 +59,7 @@ The simulation runs by integrating the [wave equation](https://en.wikipedia.org/
 
 Where `∇²` denotes the [Laplace operator](https://en.wikipedia.org/wiki/Laplace_operator). In our case, as our independent spatial variables are `x` and `z`, the Laplacian is given as follows:
 
-    ∇² = Δ = ∂u / ∂x + ∂u / ∂z
+    ∇² = Δ = ∂²u / ∂x² + ∂²u / ∂z²
 
 Where `∂` [denotes](http://tutorial.math.lamar.edu/Classes/CalcIII/PartialDerivatives.aspx) a [partial derivative](https://en.wikipedia.org/wiki/Partial_derivative). [Intuitively](https://www.youtube.com/watch?v=ck-r_qmNNG0), therefore, the wave equation [says](http://tutorial.math.lamar.edu/Classes/DE/TheWaveEquation.aspx) that the vertical acceleration of a water particle is proportional to the local spatial [curvature](https://en.wikipedia.org/wiki/Second_derivative) of the wave at that point in time.
 
