@@ -1,5 +1,5 @@
 body {
-    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font: 14px/22px "Trebuchet MS", Verdana, sans-serif;
     overflow: hidden;
 }
 div.equation {
@@ -14,6 +14,10 @@ div.equation {
 a {
     color: black;
     text-decoration: none;
+    padding-bottom: 1px;
+}
+a:hover {
+    border-bottom: 1px solid black;
 }
 .instructions {
     position: fixed;
@@ -29,11 +33,27 @@ div.by {
     right: 0;
     padding: 5px;
 }
+div.by a img {
+    opacity: 0.5;
+}
+div.by a.person:hover {
+    border-bottom: none;
+}
+div.by a:hover img {
+    opacity: 1;
+}
 div.by img {
     vertical-align: text-bottom;
-    border-radius: 3px;
+    border-radius: 50px;
 }
 sup, sub {
     font-size: 60%;
     padding: 3px;
+}
+.github {
+    background-image: url('images/github_256.png');
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 21px;
 }
