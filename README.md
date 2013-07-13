@@ -23,13 +23,13 @@ Control handling is realized in the function `hitTest`. We use a [standard three
 
 The core of the program lies at the function `animate` and `integrate`. The `animate` function is the main loop of the simulation. It requests a rendering of the current graphical scene from three.js and subsequently calls `integrate` as many times as required to perform the physical simulation. `integrate` is responsible for the physical aspect of the calculations. It goes through all the vertices of the sea and evaluates their new locations based on certain physical formulae.
 
-Our simulation is all performed at the CPU level. We are able to afford this, as our simulation algorithms are linear with respect to the number of vertices in question. If you want to run this simulation at higher speeds (a larger C2 constant) or resolution (a larger N), we encourage you to fork this project and migrate this simulation from the CPU to the GPU level using shaders for computation.
+Our simulation is all performed at the CPU level. We are able to afford this, as our simulation algorithms are linear with respect to the number of vertices in question. If you want to run this simulation at higher speeds (a larger `C2` constant) or resolution (a larger `N`), we encourage you to fork this project and migrate this simulation from the CPU to the GPU level using shaders for computation.
 
 ## The math behind it
 ### Modelling
 At the beginning, the plane is instantiated as a flat plane parallel to the xz plane. Subsequently, only the y coordinate of each vertex is modified for the simulation. This is a small offset approximation, which ignores conservation of mass and other effects that water often exhibits such as [hydraulic jumps](http://en.wikipedia.org/wiki/Hydraulic_jump). The water molecules can only move up and down - not horizontally. This is unrealistic physically, but works reasonably well for visually appealing results.
 
-Therefore, our waves are modelled using a function `y = u(x, z, t)` which gives the height of each water molecule on the water surface with respect to its spatial location, given by `x` and `z`, and time `t`. All `x`, `z`, and `t` variables are also [discretized](https://en.wikipedia.org/wiki/Discretization) to be able to perform the required calculations for our model. This discretization splits up each spacial dimension into `N + 1` discrete points, while time is discretized into moments that are close to 16 milliseconds apart. The distance between two consecutive moments in time is denoted `dt` and may become smaller or larger depending on anomalies on the hosting platform (for example, a user switching tabs or using a CPU-intensive program in parallel). The limits of our variables are as follows:
+Therefore, our waves are modelled using a function `y = u(x, z, t)` which gives the height of each water molecule on the water surface with respect to its spatial location, given by `x` and `z`, and time `t`. All `x`, `z`, and `t` variables are also [discretized](https://en.wikipedia.org/wiki/Discretization) to be able to perform the required calculations for our model. This discretization splits up each spacial dimension into `N + 1` discrete points, while time is discretized into moments that are close to 16 milliseconds apart. The distance between two consecutive moments in time is denoted `dt` and may become smaller or larger depending on anomalies on the hosting platform (for example, a user switching tabs or using a CPU-intensive program in parallel). The bounds of our variables are as follows:
 
     t ≥ 0
     -W / 2 ≤ x ≤ W / 2
@@ -59,7 +59,7 @@ The simulation runs by integrating the [wave equation](https://en.wikipedia.org/
 
 Where `∇²` denotes the [Laplace operator](https://en.wikipedia.org/wiki/Laplace_operator). In our case, as our independent spatial variables are `x` and `z`, the Laplacian is given as follows:
 
-    ∇² = Δ = ∂²u / ∂x² + ∂²u / ∂z²
+    ∇²u = Δu = ∂²u / ∂x² + ∂²u / ∂z²
 
 Where `∂` [denotes](http://tutorial.math.lamar.edu/Classes/CalcIII/PartialDerivatives.aspx) a [partial derivative](https://en.wikipedia.org/wiki/Partial_derivative). [Intuitively](https://www.youtube.com/watch?v=ck-r_qmNNG0), therefore, the wave equation [says](http://tutorial.math.lamar.edu/Classes/DE/TheWaveEquation.aspx) that the vertical acceleration of a water particle is proportional to the local spatial [curvature](https://en.wikipedia.org/wiki/Second_derivative) of the wave at that point in time.
 
@@ -69,8 +69,8 @@ Between every two moments, we run an [iterated Euler integration method](https:/
 
 Euler's method essentially [linearly approximates](http://en.wikipedia.org/wiki/Linear_approximation) the differential equations. We use the second [finite differences](http://en.wikipedia.org/wiki/Finite_difference) in space evaluated as 2nd order centrals approximations:
 
-    ∂²u / ∂x² = u(x + 1, z, t) - 2u(x, z, t) + u(x - 1, z, t)
-    ∂²u / ∂z² = u(x, z + 1, t) - 2u(x, z, t) + u(x, z - 1, t)
+    ∂²u / ∂x² ≃ u(x + 1, z, t) - 2u(x, z, t) + u(x - 1, z, t)
+    ∂²u / ∂z² ≃ u(x, z + 1, t) - 2u(x, z, t) + u(x, z - 1, t)
 
 We then find the acceleration as the sum of these:
 
@@ -78,8 +78,8 @@ We then find the acceleration as the sum of these:
 
 Finally, the speed and position are evaluated using linear approximations:
 
-    ∂u / ∂t = dt ∂²u / ∂t²
-    u = dt ∂u / ∂t
+    ∂u / ∂t ≃ dt ∂²u / ∂t²
+    u ≃ dt ∂u / ∂t
 
 Notice that `dt` is a finite number, since time is discretized. These are all evaluated for the next moment in time based on the current moment in time. To achieve the separation of moments in time, we perform a two-step process: In the first pass, we evaluate the new positions of the particles without altering the current positions of the particles. In the second pass, we update the locations of the particles based on our previous calculations. In this way, a moment in time does not affect itself.
 
