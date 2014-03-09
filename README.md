@@ -67,7 +67,7 @@ Where `∂` [denotes](http://tutorial.math.lamar.edu/Classes/CalcIII/PartialDeri
 
 Between every two moments, we run an [iterated Euler integration method](https://en.wikipedia.org/wiki/Euler_method). Iterated means that if `dt` is too large, we break it into smaller dt's and run Euler's method on those, to avoid [numerical instability](http://en.wikipedia.org/wiki/Numerical_stability). We encourage you to fork this project and improve the integration method by converting it to a lower-error [Runge-Kutta integration method](https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods). This will allow higher simulation speeds with lower iteration resolution, while maintaining numerical stability.
 
-Euler's method essentially [linearly approximates](http://en.wikipedia.org/wiki/Linear_approximation) the differential equations. We use the second [finite differences](http://en.wikipedia.org/wiki/Finite_difference) in space evaluated as 2nd order centrals approximations:
+Euler's method essentially [linearly approximates](http://en.wikipedia.org/wiki/Linear_approximation) the differential equations. We use the second [finite differences](http://en.wikipedia.org/wiki/Finite_difference) in space evaluated as 2nd order central difference approximations:
 
     ∂²u / ∂x² ≃ u(x + 1, z, t) - 2u(x, z, t) + u(x - 1, z, t)
     ∂²u / ∂z² ≃ u(x, z + 1, t) - 2u(x, z, t) + u(x, z - 1, t)
