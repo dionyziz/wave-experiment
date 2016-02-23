@@ -1,7 +1,7 @@
 # Wave simulation in WebGL
 This is a simple [WebGL](http://en.wikipedia.org/wiki/WebGL) simulation of the 2D wave equation.
 
-**[Launch the simulation](http://dionyziz.logimus.com/wave/)**
+**[Launch the simulation](https://dionyziz.com/graphics/wave-experiment/)**
 
 ## Architecture
 The root HTML file lies at index.html. This includes a basic CSS stylesheet, style.css, for elementary typography, as well as three Javascript files, three.js, TrackballControls.js, and main.js.
